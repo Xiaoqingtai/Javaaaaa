@@ -1,0 +1,4 @@
+1、sleep是Thread的方法，wait是Object的方法
+2、sleep方法没有释放锁，而wait方法释放了锁
+3、wait，notify和notifyAll只能在同步控制方法或者同步控制块里面使用，而sleep可以在任何地方使用
+4、sleep必须捕获异常，而wait，notify和notifyAll不需要捕获异常

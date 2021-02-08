@@ -1,0 +1,2 @@
+Arrays.copyOf或 System.arraycopy，是自己new数组, 然后for循环复制效率的两倍左右
+为什么快，因为它们是native方法；
