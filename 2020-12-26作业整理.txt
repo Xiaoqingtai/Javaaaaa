@@ -1,0 +1,21 @@
+ 1. 已知如下类说明：
+```java
+public class Test{
+  private float f=1.0f;
+  int m=12;
+  static int n=1;
+  public static void main(String args[]){
+    Test t=new Test();
+  }
+}
+```
+如下哪些使用是正确的（）
+题目内容：
+A.t.f = 1.0
+纠正：此处1.0为double类型，赋值需要改为1.0f
+B.this.n
+纠正：n为静态变量，不依赖对象，this是当前对象的引用
+C.Test.m
+纠正：m不是静态变量，无法访问
+D.Test.n
+正确
