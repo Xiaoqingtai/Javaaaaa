@@ -1,0 +1,98 @@
+一、Java基础
+1.注解
+1.1概念
+    他提供了一种安全的类似注释的机制，用来将任何的信息或元数据与程序进行关联。直观明了的说，注解就是信息与程序的业务逻辑无关，并且供指定的工具或框架使用。
+    Java注解是附加在代码中的一些元信息，便于一些工具在编译、运行时进行解析和使用，起到说明、配置的功能。 它不会也不能影响代码的实际逻辑，仅仅起到辅助性的作用，包含在java.lang.annotation包中。
+1.2内置注解
+    常用注解列举
+    @Override：提示子类要复写父类中被它修饰的方法；
+    @Suppress Warnnings:组织警告；
+    @FunctionalInterface：函数式接口注解（Java1.8版本引入）,是一个具有一个方法的普通接口
+1.3元注解
+    基础知识再现：
+@Retention：定义生命周期
+RetentionPolicy.SOURCE:在编译阶段丢弃。
+RetentionPolicy.CLASS：在类加载时丢弃。
+RetentionPolicy.RUNTIME：始终不丢弃,最常用。
+@Target：（类、方法、局部变量或成员变量、参数等）用于什么地方
+ElementType.CONSTRUCTOR:用于描述构造器
+ElementType.FIELD:成员变量、对象、属性(包括enum实例)
+ElementType.LOCAL_VARIABLE:用于描述局部变量
+ElementType.METHOD:用于描述方法
+ElementType.PACKAGE:用于描述包
+ElementType.PARAMETER:用于描述参数
+ElementType.TYPE:用于描述类，接口（包括注解类型）或enum声明。
+@Documented：注解是否包含在JavaDoc中；
+@Inherited：是否允许子类继承该注解；
+即：父类P有注解A，如果A用@Inherited修饰，那么子类C也继承父类的注解A）
+@Repeatable：指定注解可重复使用
+即：用@Repeatable修饰的注解A，用A在定义或修饰某个类的时候，A可重复出现
+1.4自定义注解
+1.4.1定义CustomDescription注解
+注意：
+自定义注解中，注解的成员变量义无参数的方法形式声明
+CustomDescriptions.class为注解容器
+若注解（非容器）中有一个Value属性，则在使用注解时直接把值写入括号内，而作为容器则需要将属性定义为数组
+操作界面如下：
+1.4.2实现继承关系
+建立两个类分别添加1、2个注解
+Person：
+package CusAnnontation;
+@CustomDescription（description="基类"）
+@CustomDescription（description="人"）
+public class Person{
+......
+}
+Student:
+package CusAnnontation;
+@CustomDescription（"学生"）
+若注解（不是注解容器）中只有一个value的属性，则在使用注解时，可直接把值写入括号内。
+作为注解容器，需要将属性定义为数组。
+1.5注解使用场景经介绍
+使用注解做bean的属性值校验
+使用注解做权限控制
+代替配置文件功能，像Spring基于注解的配置，减少了xml的配置
+可以生成文档，像Java代码注释中的@see、@param等
+2.反射
+2.1反射机制
+在运行状态中，对于任意一个类，都能够知道这个类的所有属性和方法；对于任意一个对象，都能调用它的任意一个方法和属性，这种动态获取的信息以及动态调用对象的方法的功能称为java语言的反射机制。
+2.2理解Class类
+首先明确Class也是一个类，只是它是一个描述类的类，也可以生成对象。
+一般获取Class对象的主要方式如下：
+通过类名获取
+ Class<类名> c = 类名.class
+通过对象获取
+ Class<类名> c = objet.getClass();
+通过全类名获取
+Class<类名> c = Class.forName(全类名)
+（全类名：类所在的包名+类名）
+Class类常用方法：
+public static void main(String[] args) throws Exception {
+// 以String.class为例
+String str = new String();
+Class cl = str.getClass();
+//获取包名+类名 java.lang.String
+cl.getName();
+//只获取类名 - String
+cl.getSimpleName();
+//获取数组的Class对象,因为所有的Java类都继承自Object,数组也一样.所以数组本身也是个Class, 得到数组的Class自然也可以转回数组.
+cl.getComponentType();
+//返回构造器数组,包括超类的公有成员.
+cl.getConstructors();
+//返回方法数组,包括超类的公有成员.
+cl.getMethods();
+//返回域（属性）数组,包括超类的公有成员.
+cl.getFields();
+// 返回全部构造器数组,无论是public/private还是protected,不包括超类的成员.
+cl.getDeclaredConstructors();
+//返回全部域数组,无论是public/private还是protected,不包括超类的成员.
+cl.getDeclaredFields();
+//返回全部方法数组,无论是public/private还是protected,不包括超类的成员.
+cl.getDeclaredMethods();
+//获取类前的修饰符
+cl.getModifiers();
+}
+2.3反射的使用
+eg:
+1_Reflection
+ method.invoke(obje,"inputParams");
